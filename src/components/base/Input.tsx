@@ -1,9 +1,10 @@
-interface InputProps {};
+import { ChangeEvent, InputHTMLAttributes } from "react";
 
-export default function Input () {
-  return (
-    <div>
-
-    </div>
-  );
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  onChange : (e: ChangeEvent<HTMLInputElement>) => void;
+  value: string;
 };
+
+export default function Input({ onChange, value, ...props }: InputProps) {
+  return <input onChange={onChange} value={value} {...props} />;
+}

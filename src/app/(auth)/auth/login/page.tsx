@@ -1,9 +1,9 @@
+import Auth from "@/components/common/Auth";
+
 interface AuthLoginPageProps {};
 
 export default function AuthLoginPage () {
   return (
-    <div>
-      auth
-    </div>
+    <Auth type="login"/>
   );
 };

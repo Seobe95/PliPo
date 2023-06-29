@@ -1,9 +1,9 @@
+import Auth from "@/components/common/Auth";
+
 interface AuthRegistPageProps {};
 
 export default function AuthRegistPage () {
   return (
-    <div>
-      auth / regist
-    </div>
+    <Auth type="regist" />
   );
 };
