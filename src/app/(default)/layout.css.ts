@@ -38,7 +38,6 @@ export const wrapContent = style({
 
 export const authContainer = style({
   width: 360,
-  height: 480,
   background: pallete.bg_2,
   borderRadius: 20,
   border: `solid 1px ${pallete.borderLine}`,

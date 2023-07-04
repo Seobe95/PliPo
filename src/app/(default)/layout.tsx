@@ -1,11 +1,13 @@
 import { Footer, Header } from "@/components/common";
-import { layoutContainer, wrapContent} from "./layout.css";
-import localFont from 'next/font/local'
+import { layoutContainer, wrapContent } from "./layout.css";
+import localFont from "next/font/local";
+import { config } from "@fortawesome/fontawesome-svg-core";
+config.autoAddCss = false;
 
 const titleFont = localFont({
-  src: '../KyoboHandwriting2022khn.woff2',
-  display : "swap"
-})
+  src: "../KyoboHandwriting2022khn.woff2",
+  display: "swap",
+});
 interface RootLayoutProps {
   children: React.ReactNode;
 }
@@ -14,11 +16,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="ko">
       <body>
-        <div className={layoutContainer}>
-          <Header titleFont={titleFont} isLogin={false} />
-          <section className={wrapContent}>{children}</section>
-          <Footer />
-        </div>
+          <div className={layoutContainer}>
+            <Header titleFont={titleFont} isLogin={false} />
+            <section className={wrapContent}>{children}</section>
+            <Footer />
+          </div>
       </body>
     </html>
   );

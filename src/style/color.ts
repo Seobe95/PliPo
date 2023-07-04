@@ -6,6 +6,7 @@ enum PalleteEnum {
   "cancel",
   "borderLine",
   "fontColor",
+  "warning"
 }
 
 type Pallete = keyof typeof PalleteEnum;
@@ -13,6 +14,7 @@ type Pallete = keyof typeof PalleteEnum;
 export const pallete: Record<Pallete, string> = {
   primary: "#6F42C1",
   secondary: "",
+  warning: "#DC143C",
   bg_1: "#F7F7FF",
   bg_2: "#ffffff",
   cancel: "",
