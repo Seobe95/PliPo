@@ -4,8 +4,9 @@ import { authInputBox, authInputContainer, authTitle } from "./Auth.css";
 import Button from "../base/Button";
 import localFont from "next/font/local";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import useAuthInput from "@/hooks/useAuthInput";
+import { apiClient } from "@/api/apiClient";
 interface AuthProps {
   type: "login" | "regist";
 }
@@ -16,7 +17,7 @@ const titleFont = localFont({
 });
 
 export default function Auth({ type }: AuthProps) {
-  const userId = useAuthInput();
+  const username = useAuthInput();
   const userPassword = useAuthInput();
   const userNickname = useAuthInput();
   const router = useRouter();
@@ -24,12 +25,12 @@ export default function Auth({ type }: AuthProps) {
   const buttonDisable = (authType: "login" | "regist") => {
     if (
       authType === "login" &&
-      (userId.inputValue === "" || userPassword.inputValue === "")
+      (username.inputValue === "" || userPassword.inputValue === "")
     ) {
       return true;
     } else if (
       authType === "regist" &&
-      (userId.inputValue === "" ||
+      (username.inputValue === "" ||
         userPassword.inputValue === "" ||
         userNickname.inputValue === "")
     ) {
@@ -38,8 +39,25 @@ export default function Auth({ type }: AuthProps) {
     return false;
   };
 
-  const onSubmit = async () => {
-    
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (type === "login") {
+      const { status } = await apiClient.post("/auth/login", {
+        username: username.inputValue,
+        password: userPassword.inputValue,
+      });
+
+      if(status < 300 ) {
+        router.replace('/')
+      }
+
+    } else if (type === "regist") {
+      const { data } = await apiClient.post("/auth/register", {
+        username: username.inputValue,
+        nickname: userNickname.inputValue,
+        password: userPassword.inputValue,
+      });
+    }
   };
 
   return (
@@ -50,9 +68,9 @@ export default function Auth({ type }: AuthProps) {
       <form className={authInputContainer} onSubmit={onSubmit}>
         <div className={authInputBox}>
           <AuthInput
-            onChange={(e) => userId.handleInputChange(e, "id")}
-            value={userId.inputValue}
-            valueCheck={userId.isValid ? "correct" : "incorrect"}
+            onChange={(e) => username.handleInputChange(e, "id")}
+            value={username.inputValue}
+            valueCheck={username.isValid ? "correct" : "incorrect"}
             type="text"
             placeholder="이메일을 입력하세요"
           />
@@ -82,7 +100,6 @@ export default function Auth({ type }: AuthProps) {
             color="primary"
             size="large"
             disabled={buttonDisable(type)}
-            onClick={onSubmit}
             type="submit"
           >
             {type === "login" ? "로그인" : "회원가입"}
