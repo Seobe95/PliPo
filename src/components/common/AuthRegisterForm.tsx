@@ -8,8 +8,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import useAuthInput from "@/hooks/useAuthInput";
 import { apiClient } from "@/api/apiClient";
-import { setStorage } from "@/lib/storage";
-import { STORAGE_KEY } from "@/constants/keys";
 import useAuthManegement from "@/zustand/useAuthManegement";
 interface AuthProps {
   type: "login" | "regist";
@@ -44,7 +42,7 @@ export default function AuthRegisterForm() {
     e.preventDefault();
 
     try {
-      const { status } = await apiClient.post("/auth/register", {
+      await apiClient.post("/auth/register", {
         username: username.inputValue,
         nickname: userNickname.inputValue,
         password: userPassword.inputValue,

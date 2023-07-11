@@ -21,10 +21,9 @@ const titleFont = localFont({
 export default function AuthLoginForm() {
   const username = useAuthInput();
   const userPassword = useAuthInput();
-  const { login, isError, user  } = useAuthManegement((state) => ({
+  const { login, isError  } = useAuthManegement((state) => ({
     login: state.login,
     isError: state.isError,
-    user: state.user
   }));
   const router = useRouter();
   const buttonDisable = () => {

@@ -18,6 +18,7 @@ interface RootLayoutProps {
 
 const HeaderClient = dynamic(() => import("@/components/common/ClientHeader"), {
   ssr: false,
+  loading: () => <p>loading...</p>
 });
 
 export default function RootLayout({ children }: RootLayoutProps) {

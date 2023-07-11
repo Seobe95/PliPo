@@ -25,26 +25,34 @@ export default function ClientHeader() {
     if (token?.data) {
       setUser(token.data);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
       {user ? (
-        <Link href={"/profile"}>
+        <>
           {pathname === "/profile" ? (
-            <button className={logoutButton} onClick={async () => {
-              await logout();
-              router.refresh();
-            }}>로그아웃</button>
+            <button
+              className={logoutButton}
+              onClick={async () => {
+                await logout();
+                router.refresh();
+              }}
+            >
+              로그아웃
+            </button>
           ) : (
-            <FontAwesomeIcon
-              icon={faCircleUser}
-              color={pallete.primary}
-              width={32}
-              height={32}
-            />
+            <Link href={"/profile"}>
+              <FontAwesomeIcon
+                icon={faCircleUser}
+                color={pallete.primary}
+                width={32}
+                height={32}
+              />
+            </Link>
           )}
-        </Link>
+        </>
       ) : (
         <>
           <Link href={"/auth/login"} className={loginButton}>

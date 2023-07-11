@@ -23,13 +23,7 @@ globalStyle("body", {
 globalStyle("a", {
   textDecoration: "none",
   outline: "none",
-  color: "black"
-});
-
-export const layoutContainer = style({
-  width: 768,
-  height: "100%",
-  background: pallete.bg_2,
+  color: "black",
 });
 
 export const wrapContent = style({
@@ -41,5 +35,21 @@ export const authContainer = style({
   background: pallete.bg_2,
   borderRadius: 20,
   border: `solid 1px ${pallete.borderLine}`,
-  padding: "8px 16px"
-})
+  padding: "8px 16px",
+});
+
+export const layoutContainer = style({
+  width: 768,
+  height: "100%",
+  background: pallete.bg_2,
+
+  "@media": {
+    "screen and (max-width: 768px)": {
+      width: 425,
+    },
+
+    "screen and (max-width: 425px)": {
+      width: "100%"
+    }
+  },
+});

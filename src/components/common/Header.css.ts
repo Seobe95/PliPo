@@ -10,6 +10,16 @@ export const headerContainer = style({
   justifyContent: "space-between",
   alignItems: "center",
   padding: "10px 20px",
+
+  "@media": {
+    "screen and (max-width: 768px)": {
+      width: 425,
+      padding: "5px 10px"
+    },
+    "screen and (max-width: 425px)": {
+      width: "100%"
+    }
+  },
 });
 
 export const titleContainer = style({
@@ -31,6 +41,12 @@ globalStyle(`${authContainer} > a`, {
   borderRadius: 8,
   border: "none",
   fontSize: 14,
+  "@media": {
+    "screen and (max-width: 425px)": {
+      padding: "5px 10px",
+      fontSize: 12
+    }
+  },
 })
 
 export const loginButton = style({
