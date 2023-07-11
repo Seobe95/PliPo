@@ -1,10 +1,9 @@
-import connectMongo from "@/api/connectMongo";
-import { check, login } from "@/controllers/auth/auth.ctrl";
-import { NextResponse } from "next/server";
+import { check } from "@/controllers/auth/auth.ctrl";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+export async function GET(request: NextRequest) {
   try {
-    const result = check(request);
+    const result = await check(request);
     return result;
   } catch (e) {
     return NextResponse.json(

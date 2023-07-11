@@ -1,3 +1,5 @@
+"use client"
+import { pallete } from "@/style/color";
 import { globalStyle, style } from "@vanilla-extract/css";
 
 export const headerContainer = style({
@@ -12,12 +14,17 @@ export const headerContainer = style({
 
 export const titleContainer = style({
   fontSize: 32,
-  color: "black",
+  color: pallete.primary,
   textUnderlineOffset: "none",
   fontWeight: 900,
 });
 
 export const authContainer = style({})
+
+export const authClientHeader = style({
+  display: "flex",
+  flexDirection: "row"
+})
 
 globalStyle(`${authContainer} > a`, {
   padding: "8px 16px",
@@ -42,3 +49,16 @@ export const registButton = style({
     color: "#333333"
   }
 });
+
+export const logoutButton = style({
+  background: "#6F42C1",
+  color: "#ffffff",
+  ":hover" : {
+    background: "#5B30A1",
+    cursor: "pointer"
+  },
+  padding: "8px 16px",
+  borderRadius: 8,
+  border: "none",
+  fontSize: 14,
+})

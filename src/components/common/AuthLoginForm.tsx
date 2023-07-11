@@ -1,39 +1,34 @@
 "use client";
+
 import AuthInput from "../base/AuthInput";
 import { authInputBox, authInputContainer, authTitle } from "./Auth.css";
 import Button from "../base/Button";
 import localFont from "next/font/local";
 import Link from "next/link";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import useAuthInput from "@/hooks/useAuthInput";
-import { apiClient } from "@/api/apiClient";
-interface AuthProps {
-  type: "login" | "regist";
-}
+import useAuthManegement from "@/zustand/useAuthManegement";
+import { setStorage } from "@/lib/storage";
+import { STORAGE_KEY } from "@/constants/keys";
+
+interface AuthProps {}
 
 const titleFont = localFont({
   src: "../../app/KyoboHandwriting2022khn.woff2",
   display: "swap",
 });
 
-export default function Auth({ type }: AuthProps) {
+export default function AuthLoginForm() {
   const username = useAuthInput();
   const userPassword = useAuthInput();
-  const userNickname = useAuthInput();
+  const { login, isError, user  } = useAuthManegement((state) => ({
+    login: state.login,
+    isError: state.isError,
+    user: state.user
+  }));
   const router = useRouter();
-
-  const buttonDisable = (authType: "login" | "regist") => {
-    if (
-      authType === "login" &&
-      (username.inputValue === "" || userPassword.inputValue === "")
-    ) {
-      return true;
-    } else if (
-      authType === "regist" &&
-      (username.inputValue === "" ||
-        userPassword.inputValue === "" ||
-        userNickname.inputValue === "")
-    ) {
+  const buttonDisable = () => {
+    if (username.inputValue === "" || userPassword.inputValue === "") {
       return true;
     }
     return false;
@@ -41,22 +36,17 @@ export default function Auth({ type }: AuthProps) {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (type === "login") {
-      const { status } = await apiClient.post("/auth/login", {
+    try {
+      await login({
         username: username.inputValue,
         password: userPassword.inputValue,
       });
+    } catch (e) {
+      console.log(e);
+    }
 
-      if(status < 300 ) {
-        router.replace('/')
-      }
-
-    } else if (type === "regist") {
-      const { data } = await apiClient.post("/auth/register", {
-        username: username.inputValue,
-        nickname: userNickname.inputValue,
-        password: userPassword.inputValue,
-      });
+    if (!isError) {
+      router.replace("/");
     }
   };
 
@@ -72,20 +62,9 @@ export default function Auth({ type }: AuthProps) {
             value={username.inputValue}
             valueCheck={username.isValid ? "correct" : "incorrect"}
             type="text"
-            placeholder="이메일을 입력하세요"
+            placeholder="아이디를 입력하세요"
           />
         </div>
-        {type === "regist" ? (
-          <div className={authInputBox}>
-            <AuthInput
-              onChange={(e) => userNickname.handleInputChange(e, "nickname")}
-              value={userNickname.inputValue}
-              type="text"
-              valueCheck={userNickname.isValid ? "correct" : "incorrect"}
-              placeholder="닉네임을 입력하세요"
-            />
-          </div>
-        ) : null}
         <div className={authInputBox}>
           <AuthInput
             onChange={(e) => userPassword.handleInputChange(e, "password")}
@@ -99,21 +78,19 @@ export default function Auth({ type }: AuthProps) {
           <Button
             color="primary"
             size="large"
-            disabled={buttonDisable(type)}
+            disabled={buttonDisable()}
             type="submit"
           >
-            {type === "login" ? "로그인" : "회원가입"}
+            로그인
           </Button>
         </div>
       </form>
       <Button
         color="none"
         size="large"
-        onClick={() =>
-          router.push(`/auth/${type === "login" ? "regist" : "login"}`)
-        }
+        onClick={() => router.push(`/auth/regist`)}
       >
-        {type === "login" ? "회원가입" : "로그인"}
+        회원가입
       </Button>
     </>
   );

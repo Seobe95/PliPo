@@ -1,4 +1,3 @@
-import { CookieSerializeOptions } from "cookie";
 import * as jose from "jose";
 
 interface SessionParams {
@@ -33,7 +32,6 @@ export const verifyToken = async <T>(token: string): Promise<T> => {
       )
     ).payload as T;
   } catch (e) {
-    console.log(e);
     throw new Error("token expired");
   }
 };

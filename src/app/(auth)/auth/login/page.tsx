@@ -1,9 +1,9 @@
-import Auth from "@/components/common/Auth";
+import AuthLoginForm from "@/components/common/AuthLoginForm";
 
 interface AuthLoginPageProps {};
 
 export default function AuthLoginPage () {
   return (
-    <Auth type="login"/>
+    <AuthLoginForm />
   );
 };

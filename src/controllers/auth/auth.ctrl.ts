@@ -1,7 +1,7 @@
-import { AuthRequest } from "@/middleware";
+import { verifyToken } from "@/lib/session";
 import User from "@/models/auth/auth.model";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
 export interface UserData {
   username: string;
@@ -44,7 +44,7 @@ export const register = async (req: Request) => {
   cookies().set({
     name: "access_token",
     value: token,
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: 7 * 24 * 60 * 60,
     path: "/",
     httpOnly: true,
   });
@@ -96,10 +96,11 @@ export const login = async (req: Request) => {
     cookies().set({
       name: "access_token",
       value: token,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
       path: "/",
+      maxAge: 7 * 24 * 60 * 60,
       httpOnly: true,
     });
+
     return NextResponse.json(
       { data },
       {
@@ -121,16 +122,19 @@ export const logout = () => {
   return NextResponse.json({ message: "로그아웃" }, { status: 204 });
 };
 
-export const check = (req: Request) => {
-  const user = (req as AuthRequest).user;
-
-  if (!user) {
+export const check = async (req: NextRequest) => {
+  const auth = req.headers.get("authorization");
+  const token = auth?.split(" ")[1];
+  if (!token) {
     return NextResponse.json(
-      { message: "로그인 중이 아님" },
+      { message: "로그인 중이 아님", isLogin: false },
       {
         status: 401, // Unauthorized
       }
     );
   }
-  return NextResponse.json({ user });
+
+  const user = await verifyToken(token);
+
+  return NextResponse.json({ user, isLogin: true });
 };
