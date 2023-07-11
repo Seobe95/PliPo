@@ -1,9 +1,7 @@
-import Auth from "@/components/common/Auth";
-
-interface AuthRegistPageProps {};
+import AuthRegisterForm from "@/components/common/AuthRegisterForm";
 
 export default function AuthRegistPage () {
   return (
-    <Auth type="regist" />
+    <AuthRegisterForm />
   );
 };

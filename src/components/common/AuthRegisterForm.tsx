@@ -1,4 +1,5 @@
 "use client";
+
 import AuthInput from "../base/AuthInput";
 import { authInputBox, authInputContainer, authTitle } from "./Auth.css";
 import Button from "../base/Button";
@@ -6,6 +7,10 @@ import localFont from "next/font/local";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import useAuthInput from "@/hooks/useAuthInput";
+import { apiClient } from "@/api/apiClient";
+import { setStorage } from "@/lib/storage";
+import { STORAGE_KEY } from "@/constants/keys";
+import useAuthManegement from "@/zustand/useAuthManegement";
 interface AuthProps {
   type: "login" | "regist";
 }
@@ -15,31 +20,41 @@ const titleFont = localFont({
   display: "swap",
 });
 
-export default function Auth({ type }: AuthProps) {
-  const userId = useAuthInput();
+export default function AuthRegisterForm() {
+  const username = useAuthInput();
   const userPassword = useAuthInput();
   const userNickname = useAuthInput();
+  const { isLoading, isError } = useAuthManegement((state) => ({
+    isLoading: state.isLoading,
+    isError: state.isError,
+  }));
   const router = useRouter();
-
-  const buttonDisable = (authType: "login" | "regist") => {
+  const buttonDisable = () => {
     if (
-      authType === "login" &&
-      (userId.inputValue === "" || userPassword.inputValue === "")
-    ) {
-      return true;
-    } else if (
-      authType === "regist" &&
-      (userId.inputValue === "" ||
-        userPassword.inputValue === "" ||
-        userNickname.inputValue === "")
+      username.inputValue === "" ||
+      userPassword.inputValue === "" ||
+      userNickname.inputValue === ""
     ) {
       return true;
     }
     return false;
   };
 
-  const onSubmit = async () => {
-    
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const { status } = await apiClient.post("/auth/register", {
+        username: username.inputValue,
+        nickname: userNickname.inputValue,
+        password: userPassword.inputValue,
+      });
+    } catch (e) {
+      console.log("errror", e);
+    }
+    if (!isError) {
+      router.replace("/");
+    }
   };
 
   return (
@@ -50,14 +65,14 @@ export default function Auth({ type }: AuthProps) {
       <form className={authInputContainer} onSubmit={onSubmit}>
         <div className={authInputBox}>
           <AuthInput
-            onChange={(e) => userId.handleInputChange(e, "id")}
-            value={userId.inputValue}
-            valueCheck={userId.isValid ? "correct" : "incorrect"}
+            onChange={(e) => username.handleInputChange(e, "id")}
+            value={username.inputValue}
+            valueCheck={username.isValid ? "correct" : "incorrect"}
             type="text"
             placeholder="이메일을 입력하세요"
           />
         </div>
-        {type === "regist" ? (
+
           <div className={authInputBox}>
             <AuthInput
               onChange={(e) => userNickname.handleInputChange(e, "nickname")}
@@ -67,7 +82,6 @@ export default function Auth({ type }: AuthProps) {
               placeholder="닉네임을 입력하세요"
             />
           </div>
-        ) : null}
         <div className={authInputBox}>
           <AuthInput
             onChange={(e) => userPassword.handleInputChange(e, "password")}
@@ -81,11 +95,10 @@ export default function Auth({ type }: AuthProps) {
           <Button
             color="primary"
             size="large"
-            disabled={buttonDisable(type)}
-            onClick={onSubmit}
+            disabled={buttonDisable()}
             type="submit"
           >
-            {type === "login" ? "로그인" : "회원가입"}
+            회원가입
           </Button>
         </div>
       </form>
@@ -93,10 +106,10 @@ export default function Auth({ type }: AuthProps) {
         color="none"
         size="large"
         onClick={() =>
-          router.push(`/auth/${type === "login" ? "regist" : "login"}`)
+          router.push(`/auth/login`)
         }
       >
-        {type === "login" ? "회원가입" : "로그인"}
+        로그인
       </Button>
     </>
   );
