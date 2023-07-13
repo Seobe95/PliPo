@@ -29,7 +29,10 @@ export const titleContainer = style({
   fontWeight: 900,
 });
 
-export const authContainer = style({})
+export const authContainer = style({
+  display: "flex",
+  alignItems : "center"
+})
 
 export const authClientHeader = style({
   display: "flex",
@@ -73,7 +76,8 @@ export const logoutButton = style({
     background: "#5B30A1",
     cursor: "pointer"
   },
-  padding: "8px 16px",
+  width: 68,
+  height: 32,
   borderRadius: 8,
   border: "none",
   fontSize: 14,
