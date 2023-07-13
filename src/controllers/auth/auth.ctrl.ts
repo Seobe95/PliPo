@@ -9,7 +9,7 @@ export interface UserData {
   password: string;
 }
 
-export const register = async (req: Request) => {
+const register = async (req: Request) => {
   const { username, nickname, password }: UserData = await req.json();
 
   const usernameExists = await User.findByUsername(username);
@@ -57,7 +57,7 @@ export const register = async (req: Request) => {
   );
 };
 
-export const login = async (req: Request) => {
+const login = async (req: Request) => {
   const { username, password }: UserData = await req.json();
 
   if (!username || !password) {
@@ -117,12 +117,12 @@ export const login = async (req: Request) => {
   }
 };
 
-export const logout = () => {
+const logout = () => {
   cookies().delete("access_token");
   return NextResponse.json({ message: "로그아웃" }, { status: 204 });
 };
 
-export const check = async (req: NextRequest) => {
+const check = async (req: NextRequest) => {
   const auth = req.headers.get("authorization");
   const token = auth?.split(" ")[1];
   if (!token) {
@@ -135,6 +135,11 @@ export const check = async (req: NextRequest) => {
   }
 
   const user = await verifyToken(token);
+  console.log(user)
 
   return NextResponse.json({ user, isLogin: true });
 };
+
+export const auth = {
+  login, logout, check, register
+}
