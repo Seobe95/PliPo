@@ -1,9 +1,5 @@
 import { NextFont } from "next/dist/compiled/@next/font";
-import {
-  authContainer,
-  headerContainer,
-  titleContainer,
-} from "./Header.css";
+import { authContainer, headerContainer, titleContainer } from "./Header.css";
 import Link from "next/link";
 
 interface HeaderProps {
@@ -18,9 +14,7 @@ export default function Header({ titleFont, children }: HeaderProps) {
         <Link href={"/"} style={titleFont.style} className={titleContainer}>
           플리포
         </Link>
-        <div className={authContainer}>
-          {children}
-        </div>
+        {children}
       </nav>
     </header>
   );

@@ -39,12 +39,12 @@ export const authContainer = style({
 });
 
 export const layoutContainer = style({
-  width: 768,
+  width: 598,
   height: "100%",
   background: pallete.bg_2,
 
   "@media": {
-    "screen and (max-width: 768px)": {
+    "screen and (max-width: 598px)": {
       width: 425,
     },
 

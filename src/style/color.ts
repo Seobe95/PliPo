@@ -18,6 +18,6 @@ export const pallete: Record<Pallete, string> = {
   bg_1: "#F7F7FF",
   bg_2: "#ffffff",
   cancel: "",
-  borderLine: "#E6E6FA",
+  borderLine: "#C5C5F0",
   fontColor: "#333333",
 };

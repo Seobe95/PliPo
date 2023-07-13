@@ -4,6 +4,7 @@ import { style } from "@vanilla-extract/css";
 export const container = style({
   background: pallete.bg_2,
   color: pallete.fontColor,
+  padding: "0 16px"
 });
 
 

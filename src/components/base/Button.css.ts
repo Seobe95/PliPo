@@ -6,7 +6,7 @@ export const button = recipe({
     border: "none",
     width: "100%",
     boxSizing: "border-box",
-    fontWeight: 700,
+    fontWeight: 500,
   },
 
   variants: {
@@ -41,7 +41,10 @@ export const button = recipe({
         padding: "8px 16px",
       },
       medium: {},
-      small: {},
+      small: {
+        padding: "8px 16px",
+        width: "auto"
+      },
       full: {},
     },
   },

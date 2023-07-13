@@ -3,7 +3,7 @@ import { pallete } from "@/style/color";
 import { globalStyle, style } from "@vanilla-extract/css";
 
 export const headerContainer = style({
-  width: 768,
+  width: "100%",
   height: 60,
   display: "flex",
   flexDirection: "row",
@@ -12,7 +12,7 @@ export const headerContainer = style({
   padding: "10px 20px",
 
   "@media": {
-    "screen and (max-width: 768px)": {
+    "screen and (max-width: 598px)": {
       width: 425,
       padding: "5px 10px"
     },
@@ -29,7 +29,10 @@ export const titleContainer = style({
   fontWeight: 900,
 });
 
-export const authContainer = style({})
+export const authContainer = style({
+  display: "flex",
+  alignItems : "center"
+})
 
 export const authClientHeader = style({
   display: "flex",
@@ -73,7 +76,8 @@ export const logoutButton = style({
     background: "#5B30A1",
     cursor: "pointer"
   },
-  padding: "8px 16px",
+  width: 68,
+  height: 32,
   borderRadius: 8,
   border: "none",
   fontSize: 14,
