@@ -1,13 +1,21 @@
+import connectMongo from "@/api/connectMongo";
 import { posts } from "@/controllers/posts/posts.ctrl";
-import { NextResponse, NextRequest } from "next/server";
 
-interface NextApi {
-  res: NextResponse;
-  req: NextRequest;
-}
-
-export async function GET({req, res}: NextApi) {
+/**GET /api/posts */
+export async function GET() {
   const result = await posts.list();
+  return result
 }
 
-export async function POST({req, res}: NextApi) {}
+/**
+ * POST /api/posts
+ * {
+ *  contents: "내용",
+ *  youtubeLink: "유튜브 링크",
+ * }
+ */
+export async function POST(request: Request) {
+  await connectMongo();
+  const result = await posts.write(request);
+  return result;
+}

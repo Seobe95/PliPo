@@ -4,8 +4,8 @@ import { InputHTMLAttributes } from "react";
 import {
   youtubeInputContainerClass,
   youtubeInputClass,
-  loadingIndicatorClass,
 } from "./YoutubeInput.css";
+import ProgressBar from "../base/ProgressBar";
 
 interface YoutubeLinkInputProps extends InputHTMLAttributes<HTMLInputElement> {
   isLoading: boolean;
@@ -22,7 +22,7 @@ export default function YoutubeLinkInput({
   return (
     <div className={youtubeInputContainerClass}>
       <input className={youtubeInputClass} {...props} />
-      {isLoading && <div className={loadingIndicatorClass} />}
+      {isLoading && <ProgressBar />}
     </div>
   );
 }

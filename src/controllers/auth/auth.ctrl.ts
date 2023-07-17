@@ -33,28 +33,37 @@ const register = async (req: Request) => {
     );
   }
 
-  const user = new User({ username, nickname });
-  await user.setPassword(password);
-  await user.save();
+  try {
+    const user = new User({ username, nickname });
+    await user.setPassword(password);
+    await user.save();
 
-  const data = user.serialize();
+    const data = user.serialize();
 
-  const token = await user.generateToken();
+    const token = await user.generateToken();
 
-  cookies().set({
-    name: "access_token",
-    value: token,
-    maxAge: 7 * 24 * 60 * 60,
-    path: "/",
-    httpOnly: true,
-  });
+    cookies().set({
+      name: "access_token",
+      value: token,
+      maxAge: 7 * 24 * 60 * 60,
+      path: "/",
+      httpOnly: true,
+    });
 
-  return NextResponse.json(
-    { data },
-    {
-      status: 200,
-    }
-  );
+    return NextResponse.json(
+      { data },
+      {
+        status: 200,
+      }
+    );
+  } catch (e) {
+    return NextResponse.json(
+      { message: "에러가 발생하였습니다.", e },
+      {
+        status: 500,
+      }
+    );
+  }
 };
 
 const login = async (req: Request) => {
@@ -135,11 +144,12 @@ const check = async (req: NextRequest) => {
   }
 
   const user = await verifyToken(token);
-  console.log(user)
-
   return NextResponse.json({ user, isLogin: true });
 };
 
 export const auth = {
-  login, logout, check, register
-}
+  login,
+  logout,
+  check,
+  register,
+};

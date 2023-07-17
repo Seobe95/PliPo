@@ -1,17 +1,20 @@
-import { NextResponse, NextRequest } from "next/server";
+import connectMongo from "@/api/connectMongo";
+import { posts } from "@/controllers/posts/posts.ctrl";
 
-interface NextApi {
-  res: NextResponse;
-  req: NextRequest;
+export async function GET(request: Request) {
+  await connectMongo();
+  const result = await posts.read(request);
+  return result;
 }
 
-export async function GET({req, res}: NextApi) {}
+export async function DELETE(request: Request) {
+  await connectMongo();
+  const result = await posts.remove(request);
+  return result;
+}
 
-export async function DELETE({req, res}: NextApi) {}
-
-export async function PATCH({req, res}: NextApi) {}
-
-export async function PUT({req, res}: NextApi) {}
-
-
-
+export async function PATCH(request: Request) {
+  await connectMongo();
+  const result = await posts.update(request);
+  return result;
+}
