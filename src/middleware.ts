@@ -54,7 +54,7 @@ export async function middleware(request: NextRequest) {
   } catch (e) {
     return NextResponse.next();
   }
-
+ 
   if (token && request.nextUrl.pathname.startsWith("/auth/login")) {
     return NextResponse.redirect(new URL("/", request.url));
   }
@@ -71,5 +71,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/auth/login", "/auth/regist", "/profile", "/"],
+  matcher: ["/auth/login", "/auth/regist", "/profile", "/", "/api/post/:path*"],
 };

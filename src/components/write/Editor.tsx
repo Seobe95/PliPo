@@ -21,7 +21,7 @@ export default function Editor({setText}: EditorProps) {
     onUpdate: ({editor}) => {
       const res = editor.getHTML();
       setText(res);
-    }
+    },
   });
 
   return (
