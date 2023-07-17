@@ -1,4 +1,4 @@
-import AuthRegisterForm from "@/components/common/AuthRegisterForm";
+import AuthRegisterForm from "@/components/auth/AuthRegisterForm";
 
 export default function AuthRegistPage () {
   return (

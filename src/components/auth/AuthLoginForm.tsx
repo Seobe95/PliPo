@@ -8,8 +8,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import useAuthInput from "@/hooks/useAuthInput";
 import useAuthManegement from "@/zustand/useAuthManegement";
-import { setStorage } from "@/lib/storage";
-import { STORAGE_KEY } from "@/constants/keys";
 
 interface AuthProps {}
 

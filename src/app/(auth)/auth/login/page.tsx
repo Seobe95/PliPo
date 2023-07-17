@@ -1,4 +1,4 @@
-import AuthLoginForm from "@/components/common/AuthLoginForm";
+import AuthLoginForm from "@/components/auth/AuthLoginForm";
 
 interface AuthLoginPageProps {};
 
